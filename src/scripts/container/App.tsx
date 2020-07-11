@@ -6,6 +6,9 @@ import { debounce } from 'lodash-es';
 
 import styles from './css/App.scss';
 
+import * as firebase from 'firebase';
+import { auth, authProviders } from '~/firebase';
+
 // components
 import Calender from '../components/Calendar';
 import DayList from '../components/DayList';
@@ -48,22 +51,45 @@ const adjustMarkdownText = (markdownText?: string) => {
 }
 
 const App = () => {
+  const [isAuthorizing, setIsAuthorizing] = useState(true);
+  const [user, setUser] = useState<firebase.User | null>(null);
   const [targetMonth, setTargetMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [markdownTextMap, setMarkdownTextMap] = useState<ITextMap>({});
 
   const selectedDateStr = useMemo(() => formatDate(selectedDate, 'yyyyMMdd'), [selectedDate]);
 
-  // useEffect(() => {
-  //   window.IPC.loadMonthTexts(targetMonth)
-  //     .then(((loadedTextMap: ITextMap) => {
-  //       setMarkdownTextMap({
-  //         ...markdownTextMap,
-  //         ...loadedTextMap,
-  //       });
-  //     }));
-  // }, [targetMonth]);
+  useEffect(() => {
+    auth.getRedirectResult()
+      .then((result) => {
+        setIsAuthorizing(false);
+        setUser(result.user);
+      });
+  }, []);
 
+  // 認証中
+  if (isAuthorizing) {
+    return (
+      <div>認証中</div>
+    );
+  }
+
+  // ログイン前
+  if (!user) {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            auth.signInWithRedirect(authProviders.Google);
+          }}
+        >
+          ログイン
+        </button>
+      </div>
+    );
+  }
+
+  // ログイン後
   return (
     <div className={styles.root}>
       <div className={styles.root__side}>
