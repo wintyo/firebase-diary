@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { hot } from 'react-hot-loader';
 
-import { format as formatDate } from 'date-fns';
+import { format as formatDate, startOfMonth, endOfMonth } from 'date-fns';
 import { debounce } from 'lodash-es';
 
 import styles from './css/App.scss';
 
 import * as firebase from 'firebase';
-import { auth, authProviders } from '~/firebase';
+import { auth, authProviders, database } from '~/firebase';
 
 // components
 import Calender from '../components/Calendar';
@@ -16,24 +16,6 @@ import ReactMarkdown from 'react-markdown';
 
 // interfaces
 import { ITextMap } from '~/interfaces/App';
-
-/**
- * テキストの保存
- * @param targetMonth - 対象月
- * @param textMap - テキストデータ
- */
-const saveTextData = debounce((targetMonth: Date, textMap: ITextMap) => {
-  const yearMonthStr = formatDate(targetMonth, 'yyyyMM');
-  const updateTextMap = Object.assign(
-    {},
-    ...Object.keys(textMap)
-      .filter((dateStr) => (new RegExp('^' + yearMonthStr).test(dateStr)))
-      .map((dateStr) => ({
-        [dateStr]: textMap[dateStr],
-      }))
-  );
-  return window.IPC.saveMonthTexts(targetMonth, updateTextMap);
-}, 500);
 
 /**
  * 意図した表示になるように少し修正する
@@ -60,12 +42,32 @@ const App = () => {
   const selectedDateStr = useMemo(() => formatDate(selectedDate, 'yyyyMMdd'), [selectedDate]);
 
   useEffect(() => {
-    auth.getRedirectResult()
-      .then((result) => {
-        setIsAuthorizing(false);
-        setUser(result.user);
-      });
+    auth.onAuthStateChanged((user) => {
+      setIsAuthorizing(false);
+      setUser(user);
+      if (user) {
+        database.ref(`user/${user.uid}/email`).set(user.email);
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    diaryRef
+      .orderByKey()
+      .startAt(formatDate(startOfMonth(targetMonth), 'yyyyMMdd'))
+      .endAt(formatDate(endOfMonth(targetMonth), 'yyyyMMdd'))
+      .once('value', (data) => {
+        const textMap = data.val();
+        setMarkdownTextMap({
+          ...markdownTextMap,
+          ...textMap,
+        });
+      });
+  }, [user, targetMonth]);
 
   // 認証中
   if (isAuthorizing) {
@@ -88,6 +90,16 @@ const App = () => {
       </div>
     );
   }
+
+  const diaryRef = database.ref(`diary/${user.uid}`);
+  const uploadText = debounce(async (selectedDate: Date, text: string) => {
+    try {
+      await diaryRef.child(formatDate(selectedDate, 'yyyyMMdd')).set(text);
+    } catch (error) {
+      window.alert('登録でエラーが発生しました。');
+      console.error(error);
+    }
+  }, 500);
 
   // ログイン後
   return (
@@ -121,7 +133,7 @@ const App = () => {
               [selectedDateStr]: event.currentTarget.value
             };
             setMarkdownTextMap(newTextMap);
-            saveTextData(selectedDate, newTextMap);
+            uploadText(selectedDate, newTextMap[selectedDateStr]);
           }}
         />
       </div>
