@@ -7,6 +7,13 @@ html(lang="ja")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     meta(name="apple-mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent")
+    link(rel="manifest" href="./manifest.json")
     title 日記アプリケーション
   body
     #app(style="height: 100%")
+    script.
+      window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/serviceWorker.js');
+        }
+      });

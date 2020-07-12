@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config: webpack.Configuration = {
   entry: {
@@ -59,6 +60,13 @@ const config: webpack.Configuration = {
       template: path.resolve(__dirname, './src/pug/index.pug'),
       hash: true,
       inject: true,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/assets/manifest.json', to: '' },
+        { from: 'src/assets/serviceWorker.js', to: '' },
+        { from: 'app-icons/*', to: '', context: path.resolve(__dirname, 'src/assets') },
+      ],
     }),
   ],
 };
