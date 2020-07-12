@@ -4,7 +4,7 @@
 
 Googleアカウントと連携してデータをクラウドに保存する日記アプリ。  
 
-## 機能
+## 使用している技術
 + TypeScript
 + React
 + firebase
