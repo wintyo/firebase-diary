@@ -39,6 +39,11 @@
     cursor: default;
   }
 
+  &._inputted {
+    font-size: 1.7rem;
+    font-weight: 600;
+  }
+
   &._selected {
     color: #fff;
     background-color: #4190e2;

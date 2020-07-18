@@ -5,6 +5,9 @@ import styles from './css/Calendar.scss';
 import { range, flatten } from 'lodash';
 import { format as formatDate, isSameDay, addMonths } from 'date-fns';
 
+// interfaces
+import { ITextMap } from '~/interfaces/App';
+
 const DAY_NAME_LIST = ['日', '月', '火', '水', '木', '金', '土'];  // 日付リスト
 
 /**
@@ -68,6 +71,8 @@ function createCalendarList(year: number, month: number, offset = 0) {
 interface IProps {
   /** 表示する月 */
   targetMonth: Date;
+  /** テキスト情報 */
+  textMap: ITextMap;
   /** 曜日のオフセット（日曜日スタートがoffset:0で、月曜日からにする場合はoffset:1にする） */
   offset: number;
   /** 選択した日 */
@@ -118,6 +123,7 @@ const Calender = (props: IProps) => {
             }}
           >
             <div className={classNames(styles.day, {
+              [styles._inputted]: !!props.textMap[formatDate(calendarCell.date, 'yyyyMMdd')],
               [styles._other]: calendarCell.isPrev || calendarCell.isNext,
               [styles._selected]: !calendarCell.isPrev && !calendarCell.isNext && isSameDay(calendarCell.date, props.selectedDate),
             })}>

@@ -109,6 +109,7 @@ const App = () => {
           <Calender
             targetMonth={targetMonth}
             selectedDate={selectedDate}
+            textMap={markdownTextMap}
             onChangeMonth={setTargetMonth}
             onChangeSelectedDate={setSelectedDate}
           />
