@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { times } from 'lodash-es';
 import { format as formatDate, isSameDay, getDaysInMonth, addDays } from 'date-fns';
@@ -28,6 +28,11 @@ const DayList = (props: IProps) => {
   times(numDays).forEach((i) => {
     els.current[i] = React.createRef<HTMLDivElement>();
   });
+
+  useEffect(() => {
+    const day = props.selectedDate.getDate();
+    els.current[day - 1].current?.focus();
+  }, []);
   return (
     <div className={styles.list}>
       {times(numDays).map((index) => {
@@ -42,13 +47,14 @@ const DayList = (props: IProps) => {
                 [styles._selected]: isSameDay(date, props.selectedDate),
               })}
               onKeyDown={(event) => {
-                event.preventDefault();
                 if (event.key === 'ArrowUp' && index > 0) {
+                  event.preventDefault();
                   els.current[index - 1].current?.focus();
                   props.onChangeSelectedDate(addDays(date, -1));
                   return;
                 }
                 if (event.key === 'ArrowDown' && index < numDays - 1) {
+                  event.preventDefault();
                   els.current[index + 1].current?.focus();
                   props.onChangeSelectedDate(addDays(date, 1));
                   return;
