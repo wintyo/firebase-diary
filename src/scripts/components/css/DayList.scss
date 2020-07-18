@@ -13,6 +13,10 @@
   padding: 5px;
   cursor: pointer;
 
+  &:focus {
+    // outline: none;
+  }
+
   &._selected {
     font-weight: 600;
   }
