@@ -117,6 +117,9 @@ const Calender = (props: IProps) => {
             className={styles.table__cell}
             onClick={() => {
               if (calendarCell.isPrev || calendarCell.isNext) {
+                const moveValue = calendarCell.isPrev ? -1 : 1;
+                props.onChangeMonth(addMonths(props.targetMonth, moveValue));
+                props.onChangeSelectedDate(calendarCell.date);
                 return;
               }
               props.onChangeSelectedDate(calendarCell.date);
