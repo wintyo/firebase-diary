@@ -5,6 +5,17 @@
 .header {
   display: flex;
   justify-content: space-between;
+
+  &__date {
+    flex: 1 1 0;
+    text-align: center;
+  }
+
+  &__button {
+    & + & {
+      margin-left: 5px;
+    }
+  }
 }
 
 .table {

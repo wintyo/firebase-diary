@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './css/Calendar.scss';
 
 import { range, flatten } from 'lodash';
-import { format as formatDate, isSameDay, addMonths } from 'date-fns';
+import { format as formatDate, isSameDay, addMonths, addYears } from 'date-fns';
 
 // interfaces
 import { ITextMap } from '~/interfaces/App';
@@ -91,15 +91,29 @@ const Calender = (props: IProps) => {
     <div className={styles.root}>
       <div className={styles.header}>
         <button
+          className={styles.header__button}
+          onClick={() => { props.onChangeMonth(addYears(props.targetMonth, -1)); }}
+        >
+          {'<<'}
+        </button>
+        <button
+          className={styles.header__button}
           onClick={() => { props.onChangeMonth(addMonths(props.targetMonth, -1)); }}
         >
-          ←
+          {'<'}
         </button>
-        <div>{formatDate(props.targetMonth, 'yyyy年MM月')}</div>
+        <div className={styles.header__date}>{formatDate(props.targetMonth, 'yyyy年MM月')}</div>
         <button
+          className={styles.header__button}
           onClick={() => { props.onChangeMonth(addMonths(props.targetMonth, 1)); }}
         >
-          →
+          {'>'}
+        </button>
+        <button
+          className={styles.header__button}
+          onClick={() => { props.onChangeMonth(addYears(props.targetMonth, 1)); }}
+        >
+          {'>>'}
         </button>
       </div>
       <div className={styles.table}>
