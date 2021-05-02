@@ -2,7 +2,6 @@ node_modules/
 dist/
 .firebase
 firebase-debug.log
-config/
 
 # エラー関係
 package-lock.json
