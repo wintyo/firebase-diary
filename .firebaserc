@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "fir-diary-b3104"
+    "demo": "fir-diary-wintyo-demo",
+    "prod": "fir-diary-b3104"
   }
 }
