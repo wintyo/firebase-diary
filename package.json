@@ -11,9 +11,17 @@
     "IE 11"
   ],
   "scripts": {
-    "start": "yarn && cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack-dev-server --config webpack.config.development.ts",
-    "build": "yarn && rimraf dist && cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack --config webpack.config.production.ts",
-    "deploy": "firebase deploy"
+    "start": "cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack-dev-server --config webpack.config.development.ts",
+    "start:demo": "yarn config:demo; yarn start",
+    "start:prod": "yarn config:prod; yarn start",
+    "config": "cross-env TS_NODE_PROJECT=tsconfig-for-node.json ts-node ./scripts/outFirebaseConfig.ts",
+    "config:demo": "yarn run config demo",
+    "config:prod": "yarn run config prod",
+    "build": "rimraf dist; cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack --config webpack.config.production.ts",
+    "build:demo": "yarn config:demo; yarn build",
+    "build:prod": "yarn config:prod; yarn build",
+    "deploy:demo": "firebase use demo; firebase deploy",
+    "deploy:prod": "firebase use prod; firebase deploy"
   },
   "author": "",
   "license": "MIT",
