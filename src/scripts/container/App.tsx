@@ -66,6 +66,10 @@ const App = () => {
           ...markdownTextMap,
           ...textMap,
         });
+      })
+      .catch((err) => {
+        window.alert('データの取得に失敗しました');
+        console.error(err);
       });
   }, [user, targetMonth]);
 
