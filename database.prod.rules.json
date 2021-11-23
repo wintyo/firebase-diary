@@ -1,0 +1,7 @@
+{
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": "auth != null && auth.uid == 'r9dioQ8bzhaC2ykgE1lFEJ5soUu2'",
+    ".write": "auth != null && auth.uid == 'r9dioQ8bzhaC2ykgE1lFEJ5soUu2'"
+  }
+}

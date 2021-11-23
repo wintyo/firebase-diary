@@ -20,8 +20,8 @@
     "build": "rimraf dist; cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack --config webpack.config.production.ts",
     "build:demo": "yarn config:demo; yarn build",
     "build:prod": "yarn config:prod; yarn build",
-    "deploy:demo": "firebase use demo; firebase deploy",
-    "deploy:prod": "firebase use prod; firebase deploy"
+    "deploy:demo": "cp database.demo.rules.json database.rules.json; firebase use demo; firebase deploy",
+    "deploy:prod": "cp database.prod.rules.json database.rules.json; firebase use prod; firebase deploy"
   },
   "author": "",
   "license": "MIT",
