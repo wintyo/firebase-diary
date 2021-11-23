@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "start": "yarn && cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack-dev-server --config webpack.config.development.ts",
+    "config": "cross-env TS_NODE_PROJECT=tsconfig-for-node.json ts-node ./scripts/outFirebaseConfig.ts",
     "build": "yarn && rimraf dist && cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack --config webpack.config.production.ts",
     "deploy": "firebase deploy"
   },
