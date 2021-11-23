@@ -1,0 +1,11 @@
+{
+  "projectId": "fir-diary-wintyo-demo",
+  "appId": "1:1096300350592:web:9a20e165f6867fa38d6a65",
+  "databaseURL": "https://fir-diary-wintyo-demo-default-rtdb.firebaseio.com",
+  "storageBucket": "fir-diary-wintyo-demo.appspot.com",
+  "locationId": "us-central",
+  "apiKey": "AIzaSyCDzUvozhZuCYzSfOPbZCqUcXKlpkpXPrk",
+  "authDomain": "fir-diary-wintyo-demo.firebaseapp.com",
+  "messagingSenderId": "1096300350592",
+  "measurementId": "G-ZQ8E2TVVZF"
+}

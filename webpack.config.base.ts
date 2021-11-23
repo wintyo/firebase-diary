@@ -55,6 +55,9 @@ const config: webpack.Configuration = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV)
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, './src/pug/index.pug'),

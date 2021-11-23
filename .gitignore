@@ -1,6 +1,5 @@
 node_modules/
 dist/
-config/sdkConfig.json
 database.rules.json
 .firebase
 firebase-debug.log

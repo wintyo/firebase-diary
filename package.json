@@ -12,14 +12,11 @@
   ],
   "scripts": {
     "start": "cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack-dev-server --config webpack.config.development.ts",
-    "start:demo": "yarn config:demo; yarn start",
-    "start:prod": "yarn config:prod; yarn start",
-    "config": "cross-env TS_NODE_PROJECT=tsconfig-for-node.json ts-node ./scripts/outFirebaseConfig.ts",
-    "config:demo": "yarn run config demo",
-    "config:prod": "yarn run config prod",
+    "start:demo": "cross-env APP_ENV=demo yarn start",
+    "start:prod": "cross-env APP_ENV=prod yarn start",
     "build": "rimraf dist; cross-env TS_NODE_PROJECT=tsconfig-for-node.json webpack --config webpack.config.production.ts",
-    "build:demo": "yarn config:demo; yarn build",
-    "build:prod": "yarn config:prod; yarn build",
+    "build:demo": "cross-env APP_ENV=demo yarn build",
+    "build:prod": "cross-env APP_ENV=prod yarn build",
     "deploy:demo": "cp database.demo.rules.json database.rules.json; firebase use demo; firebase deploy",
     "deploy:prod": "cp database.prod.rules.json database.rules.json; firebase use prod; firebase deploy"
   },
