@@ -86,7 +86,7 @@ const App = () => {
       <div>
         <button
           onClick={() => {
-            auth.signInWithRedirect(authProviders.Google);
+            auth.signInWithPopup(authProviders.Google)
           }}
         >
           ログイン
