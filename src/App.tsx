@@ -19,8 +19,24 @@ import styles from "./App.module.scss";
 import { auth, authProviders, database } from "./firebase";
 import type { DiaryTextMap } from "./types/DiaryTextMap";
 
+import ReactMarkdown from "react-markdown";
 import { Calender } from "./components/Calendar";
 import { DayList } from "./components/DayList";
+
+/**
+ * 意図した表示になるように少し修正する
+ * @param markdownText - マークダウンテキスト
+ */
+const adjustMarkdownText = (markdownText?: string) => {
+  if (!markdownText) {
+    return "";
+  }
+  // 改行の後ろにスペース2つを入れてプレビューでも改行されるようにする
+  return markdownText
+    .split("\n")
+    .map((text) => text + "  ")
+    .join("\n");
+};
 
 function App() {
   const [isAuthorizing, setIsAuthorizing] = useState(true);
@@ -138,11 +154,11 @@ function App() {
         />
       </div>
       <div className={styles.root__preview}>
-        マークダウン表示
-        {/* <ReactMarkdown
-          className={styles.preview}
-          source={adjustMarkdownText(markdownTextMap[selectedDateStr])}
-        /> */}
+        <div className={styles.preview}>
+          <ReactMarkdown
+            children={adjustMarkdownText(markdownTextMap[selectedDateStr])}
+          />
+        </div>
       </div>
     </div>
   );
