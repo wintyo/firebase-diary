@@ -1,10 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+
+import type { User } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { auth, authProviders, database } from "./firebase";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthorizing, setIsAuthorizing] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setIsAuthorizing(false);
+      setUser(user);
+      if (user) {
+        set(ref(database, `user/${user.uid}/email`), user.email);
+      }
+    });
+  }, []);
+
+  // 認証中
+  if (isAuthorizing) {
+    return <div>認証中</div>;
+  }
+
+  // ログイン前
+  if (!user) {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            signInWithPopup(auth, authProviders.Google);
+          }}
+        >
+          ログイン
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -29,7 +66,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
