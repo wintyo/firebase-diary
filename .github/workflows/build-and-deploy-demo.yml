@@ -1,4 +1,4 @@
-name: Build And Deploy Prod App
+name: Build And Deploy Demo App
 
 on:
   push:
@@ -33,6 +33,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_DIARY_B3104 }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_DIARY_WINTYO_DEMO }}
           projectId: fir-diary-wintyo-demo
           channelId: ${{ github.event_name == 'push' && 'live' || '' }}
