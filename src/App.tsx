@@ -1,14 +1,27 @@
-import { useState, useEffect } from "react";
-import styles from "./App.module.scss";
+import { useState, useEffect, useMemo } from "react";
+import { formatDate } from "date-fns";
 
 import type { User } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import { ref, set } from "firebase/database";
+
+import styles from "./App.module.scss";
 import { auth, authProviders, database } from "./firebase";
+import type { DiaryTextMap } from "./types/DiaryTextMap";
+
+import { Calender } from "./components/Calendar";
 
 function App() {
   const [isAuthorizing, setIsAuthorizing] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [targetMonth, setTargetMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [markdownTextMap, setMarkdownTextMap] = useState<DiaryTextMap>({});
+
+  const selectedDateStr = useMemo(
+    () => formatDate(selectedDate, "yyyyMMdd"),
+    [selectedDate]
+  );
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -45,14 +58,13 @@ function App() {
     <div className={styles.root}>
       <div className={styles.root__side}>
         <div className={styles.root__side__calendar}>
-          カレンダー
-          {/* <Calender
+          <Calender
             targetMonth={targetMonth}
             selectedDate={selectedDate}
             textMap={markdownTextMap}
             onChangeMonth={setTargetMonth}
             onChangeSelectedDate={setSelectedDate}
-          /> */}
+          />
         </div>
         <div className={styles.root__side__list}>
           日付リスト
