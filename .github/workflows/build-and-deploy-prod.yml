@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 permissions:
   checks: write
@@ -35,4 +32,3 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIR_DIARY_B3104 }}
           projectId: fir-diary-b3104
-          channelId: ${{ github.event_name == 'push' && 'live' || '' }}
