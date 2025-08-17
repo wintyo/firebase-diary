@@ -10,6 +10,7 @@ import { auth, authProviders, database } from "./firebase";
 import type { DiaryTextMap } from "./types/DiaryTextMap";
 
 import { Calender } from "./components/Calendar";
+import { DayList } from "./components/DayList";
 
 function App() {
   const [isAuthorizing, setIsAuthorizing] = useState(true);
@@ -67,13 +68,12 @@ function App() {
           />
         </div>
         <div className={styles.root__side__list}>
-          日付リスト
-          {/* <DayList
+          <DayList
             targetMonth={targetMonth}
             selectedDate={selectedDate}
             textMap={markdownTextMap}
             onChangeSelectedDate={setSelectedDate}
-          /> */}
+          />
         </div>
       </div>
       <div className={styles.root__editor}>
