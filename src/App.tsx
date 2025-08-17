@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import styles from "./App.module.scss";
 
 import type { User } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
@@ -40,7 +40,55 @@ function App() {
     );
   }
 
-  return <div>ログイン完了</div>;
+  // ログイン後
+  return (
+    <div className={styles.root}>
+      <div className={styles.root__side}>
+        <div className={styles.root__side__calendar}>
+          カレンダー
+          {/* <Calender
+            targetMonth={targetMonth}
+            selectedDate={selectedDate}
+            textMap={markdownTextMap}
+            onChangeMonth={setTargetMonth}
+            onChangeSelectedDate={setSelectedDate}
+          /> */}
+        </div>
+        <div className={styles.root__side__list}>
+          日付リスト
+          {/* <DayList
+            targetMonth={targetMonth}
+            selectedDate={selectedDate}
+            textMap={markdownTextMap}
+            onChangeSelectedDate={setSelectedDate}
+          /> */}
+        </div>
+      </div>
+      <div className={styles.root__editor}>
+        テキストエリア
+        {/* <textarea
+          className={styles.textarea}
+          value={markdownTextMap[selectedDateStr] || ''}
+          placeholder="今日の内容を記入してください"
+          onChange={(event) => {
+            const newTextMap = {
+              ...markdownTextMap,
+              [selectedDateStr]: event.currentTarget.value
+            };
+            setMarkdownTextMap(newTextMap);
+            uploadText(selectedDate, newTextMap[selectedDateStr]);
+          }}
+        /> */}
+      </div>
+      <div className={styles.root__preview}>
+        マークダウン表示
+        {/* <ReactMarkdown
+          className={styles.preview}
+          source={adjustMarkdownText(markdownTextMap[selectedDateStr])}
+        /> */}
+      </div>
+    </div>
+  );
 }
 
 export default App;
